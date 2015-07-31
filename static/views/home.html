@@ -1,0 +1,84 @@
+
+<div ng-include="'static/views/head.html'"></div>
+
+<div class="container main">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Grade Weights</h3>
+          </div>
+          <div class="panel-body">
+            <div ng-repeat="item in grade">
+              <div class="input-group col-md-12">
+                <span class="input-group-addon" id="basic-addon1">{{ item.name }}</span>
+                <input type="text" ng-model="item.weight" class="form-control">
+                <span class="input-group-addon">%</span>
+              </div>
+              <br>
+            </div>
+          </div>
+          <br>
+          <div class="alert alert-danger" role="alert" ng-if="error">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Does not add to 100%
+          </div>
+        </div>
+
+      </div>
+  
+      <div class="col-md-9">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Grader</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Catagory</th>
+                  <th>Name</th>
+                  <th>Points Possible</th>
+                  <th>Points Earned</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="assignment in assignments">
+                  <th><button type="button" class="btn btn-danger" ng-click="delete_assignment($index)">Delete</button></th>
+                  <th>{{ assignment.catagory }}</th>
+                  <th>{{ assignment.name }}</th>
+                  <th><input type="text" ng-model="assignments[$index].possible" class="form-control"></th>
+                  <th><input type="text" ng-model="assignments[$index].earned" class="form-control"></th>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table">
+              <h1>Add Assignment</h1>
+              <tr>
+                <th>
+                  <select class="form-control" ng-model="new_assignment.catagory" ng-options="item.name for item in grade">
+                  </select>
+                </th>
+                <th><input type="text" ng-model="new_assignment.name" class="form-control" placeholder="Name"></th>
+                <th><input type="text" ng-model="new_assignment.possible" class="form-control" placeholder="# of Possible Points"></th>
+                <th><input type="text" ng-model="new_assignment.earned" class="form-control" placeholder="# of Points Earned"></th>
+              </tr>
+            </table>
+            <button type="button" class="btn btn-success" ng-click="add_assignment()">Add</button>
+
+            <h2>Total grade = {{ total }}% 
+            <span ng-if="total >= 90" class="label label-success">A</span>
+            <span ng-if="total >= 80 && total < 90" class="label label-primary">B</span>
+            <span ng-if="total >= 70 && total < 80" class="label label-warning">C</span>
+            <span ng-if="total >= 60 && total < 70" class="label label-danger">D</span>
+            <span ng-if="total < 60" class="label label-danger">F</span>
+            </h2>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container -->
